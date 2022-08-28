@@ -627,9 +627,8 @@ button.addEventListener('click', () => {
 
 async function copyToClipboard(obj) {
   const element = obj.previousElementSibling;
-  console.log(element, element.value, navigator.clipboard);
   // https/LTS通信環境でのみ、このClipboard API記述が使用可能
-  if (navigator.clipboard) {
+  if (navigator.clipboard && !element.value === false) {
     await navigator.clipboard.writeText(element.value);
     copy.textContent = 'Copied!';
   } else if (!navigator.clipboard) {
@@ -664,9 +663,8 @@ button2.addEventListener('click', () => {
 
 async function copyToClipboard2(obj) {
   const element = obj.previousElementSibling;
-  console.log(element, element.value, navigator.clipboard);
   // https/LTS通信環境でのみ、このClipboard API記述が使用可能
-  if (navigator.clipboard) {
+  if (navigator.clipboard && !element.value === false) {
     await navigator.clipboard.writeText(element.value);
     copy2.textContent = 'Copied!';
   } else if (!navigator.clipboard) {
