@@ -1,0 +1,82 @@
+:root {
+  // Write only what you actually use
+
+  // CSS variable for calculation based on root font-size of 16px
+  // --10px-rem: 0.625rem;
+  // --11px-rem: 0.6875rem;
+  --12px-rem: 0.75rem;
+  // --13px-rem: 0.8125rem;
+  --14px-rem: 0.875rem;
+  // --15px-rem: 0.9375rem;
+  --16px-rem: 1rem;
+  // --17px-rem: 1.0625rem;
+  --18px-rem: 1.125rem;
+  // --19px-rem: 1.1875rem;
+  --20px-rem: 1.25rem;
+  // --21px-rem: 1.3125rem;
+  // --22px-rem: 1.375rem;
+  // --23px-rem: 1.4375rem;
+  --24px-rem: 1.5rem;
+  // --25px-rem: 1.5625rem;
+  // --26px-rem: 1.625rem;
+  // --27px-rem: 1.6875rem;
+  --28px-rem: 1.75rem;
+  // --29px-rem: 1.8125rem;
+  // --30px-rem: 1.875rem;
+  --32px-rem: 2rem;
+  --36px-rem: 2.25rem;
+  --40px-rem: 2.5rem;
+  // --44px-rem: 2.75rem;
+  --48px-rem: 3rem;
+  // --56px-rem: 3.5rem;
+  // --64px-rem: 4rem;
+  // --72px-rem: 4.5rem;
+  // --80px-rem: 5rem;
+
+  --base-font: Helvetica Neue,Segoe UI,Arial,Hiragino Kaku Gothic ProN,Hiragino Sans,BIZ UDPGothic,Meiryo,sans-serif;
+  --decorative-font: Hiragino Mincho Pro,BIZ UDPMincho,serif;
+  --logo-font: Brandon Grotesque Bold;
+  --sentence-font: var(--base-font);
+  --sentence-font-mb: var(--base-font);
+  --sentence-font-dt: var(--base-font);
+  --heading-font-mb: var(--base-font);
+  --heading-font-dt: var(--base-font);
+  --home-section-heading-font-mb: var(--decorative-font);
+  --home-section-heading-font-dt: var(--decorative-font);
+  --english-font: Brandon Grotesque Medium;
+  --english-font-print: Arial,sans-serif;
+  --font-size-l4: 1rem * 8/3;
+  --font-size-l3: 1rem * 8/4;
+  --font-size-l2: 1rem * 8/5;
+  --font-size-l1: 1rem * 8/6;
+  --font-size-m2: 1rem * 8/7;
+  --font-size-m1: 1rem;
+  --font-size-s1: 1rem * 8/9;
+  --font-size-s2: 1rem * 8/10;
+
+  --frame-color: hsla(23, 36%, 23%, 1);
+  --bg-pale-color: hsla(32, 62%, 96%, 1);
+  --accent-color: hsla(229, 73%, 19%, 1);
+  --focusring-color: hsla(217, 99%, 71%, 1);
+  --error-color: hsla(350, 100%, 45%, 1);
+
+  --black: hsla(0, 0%, 20%, 1);
+  --white: hsla(0, 100%, 100%, 1);
+  --contrast-limit-gray: hsla(0, 0%, 47%, 1);
+  --text-normal-color: var(--black);
+  --border-color: var(--contrast-limit-gray);
+  --focusring-color: hsla(217, 99%, 71%, 1);
+  --ease-in-quad: cubic-bezier(.55, .085, .68, .53);
+  --ease-out-quad: cubic-bezier(.25, .46, .45, .94);
+  --ease-in-out-quad: cubic-bezier(.455, .03, .515, .955);
+  --ease-in-cubic: cubic-bezier(.55, .055, .675, .19);
+  --ease-out-cubic: cubic-bezier(.215, .61, .355, 1);
+  --ease-in-out-cubic: cubic-bezier(.645, .045, .355, 1);
+  --textbox-shadow: 0 10px 15px -3px rgba(0, 0, 0, .2), 0 4px 6px -2px rgba(0, 0, 0, .1);
+  --textbox-bg: rgba(255, 255, 255, .925);
+  --textbox-hover-shadow: 0 12px 12px 0 rgba(0, 0, 0, .14), 0 5px 7px 0 rgba(0, 0, 0, .065);
+  --in-transition: color .15s var(--ease-in-out-quad), background-color .15s var(--ease-in-out-quad), transform .15s var(--ease-in-out-quad);
+  --out-transition: color .2s var(--ease-out-quad), background-color .2s var(--ease-in-out-quad), transform .2s var(--ease-in-out-quad);
+  --carousel-fade: opacity .7s var(--ease-in-quad);
+  --carousel-switch-effect: var(--in-transition), var(--carousel-fade);
+}

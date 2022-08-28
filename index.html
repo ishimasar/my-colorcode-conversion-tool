@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HSLA使用を前提としたカラーコード変換ツール | Web制作用 道具箱 | Cloudy knot</title>
+    <link rel="stylesheet" href="./src/assets/scss/style.css">
+    <script src="color-converter.js" defer></script>
+  </head>
+  <body>
+    <div class="wrapper">
+      <h1 class="page-heading mt32 mb32">
+        <span class="sub">Web制作用 道具箱</span>
+        <span class="main">HSLA使用を前提とした<br>カラーコード変換ツール</span>
+      </h1>
+      <fieldset class="tool-container -hxhs">
+        <legend class="legend">Hex(A)→HSLA変換</legend>
+        <div class="layout-box">
+          <label for="hex" class="label">Hex(A)値入力欄:</label>
+          <input id="hex" type="text" name="hex" class="input-field" placeholder="ex. #ffff00 or #ff0 or (HexA)">
+        </div>
+        <button id="convert-button" type="button" class="convert-button mt16">変換 ↓</button>
+        <div class="layout-box mt16">
+          <div class="output-label">HSLA値<br>出力欄:</div>
+          <div id="output" class="output-field">&nbsp;&nbsp;</div>
+          <button id="copy" type="button" class="copy-button" onclick="copyToClipboard(this)">←Copy</button>
+        </div>
+      </fieldset>
+      <fieldset class="tool-container -cnhs">
+        <legend class="legend">カラーネーム→HSLA変換</legend>
+        <div class="layout-box">
+          <label for="color-name" class="label">カラーネーム<br>入力欄:</label>
+          <input id="color-name" type="text" name="color-name" class="input-field" placeholder="ex. blue">
+        </div>
+        <button id="convert-button2" type="button" class="convert-button mt16">変換 ↓</button>
+        <div class="layout-box mt16">
+          <div class="output-label">HSLA値<br>出力欄:</div>
+          <div id="output2" class="output-field">&nbsp;&nbsp;</div>
+          <button id="copy2" type="button" class="copy-button" onclick="copyToClipboard2(this)">←Copy</button>
+        </div>
+      </fieldset>
+      <div class="details-wrapper">
+        <details class="mt32">
+          <summary>RGBA→HSLA変換</summary>
+          <fieldset class="tool-container -rghs">
+            <legend class="legend">RGBA→HSLA変換</legend>
+            <div class="alert">開発中 🚑</div>
+            <!-- <div class="layout-box">
+              <label for="rgba" class="label">RGBA値入力欄:</label>
+              <input id="rgba" type="text" name="rgba" class="input-field" placeholder="ex.">
+            </div>
+            <button id="convert-button3" type="button" class="convert-button mt16">変換 ↓</button>
+            <div class="layout-box mt16">
+              <div class="output-label">HSLA値<br>出力欄:</div>
+              <div id="output3" class="output-field">&nbsp;&nbsp;</div>
+              <button id="copy3" type="button" class="copy-button" onclick="copyToClipboard(this)">←Copy</button>
+            </div> -->
+          </fieldset>
+        </details>
+        <details class="mt32">
+          <summary>HSLA→Hex変換</summary>
+          <fieldset class="tool-container -hshx">
+            <legend class="legend">HSLA→Hex変換</legend>
+            <div class="alert">開発中 ☕️</div>
+            <!-- <div class="layout-box">
+              <label for="hsla" class="label">HSLA値入力欄:</label>
+              <input id="hsla" type="text" name="hsla" class="input-field" placeholder="ex.">
+            </div>
+            <button id="convert-button4" type="button" class="convert-button mt16">変換 ↓</button>
+            <div class="layout-box mt16">
+              <div class="output-label">RGBA値<br>出力欄:</div>
+              <div id="output4" class="output-field">&nbsp;&nbsp;</div>
+              <button id="copy4" type="button" class="copy-button" onclick="copyToClipboard4(this)">←Copy</button>
+            </div> -->
+          </fieldset>
+        </details>
+        <details class="mt32">
+          <summary>HSLA→RGBA変換</summary>
+          <fieldset class="tool-container -hsrg">
+            <legend class="legend">HSLA→RGBA変換</legend>
+            <div class="alert">開発中 😭</div>
+            <!-- <div class="layout-box">
+              <label for="hsla2" class="label">HSLA値入力欄:</label>
+              <input id="hsla2" type="text" name="hsla2" class="input-field" placeholder="ex.">
+            </div>
+            <button id="convert-button5" type="button" class="convert-button mt16">変換 ↓</button>
+            <div class="layout-box mt16">
+              <div class="output-label">RGBA値<br>出力欄:</div>
+              <div id="output5" class="output-field">&nbsp;&nbsp;</div>
+              <button id="copy5" type="button" class="copy-button" onclick="copyToClipboard5(this)">←Copy</button>
+            </div> -->
+          </fieldset>
+        </details>
+        <details class="mt32">
+          <summary>CMYK→HLSA変換</summary>
+          <fieldset class="tool-container -cyhs">
+            <legend class="legend">CMYK→HLSA変換</legend>
+            <div class="alert">開発中 😱</div>
+            <!-- <div class="layout-box">
+              <label for="cmyk" class="label">CMYK値入力欄:</label>
+              <input id="cmyk" type="text" name="cmyk" class="input-field" placeholder="ex.">
+            </div>
+            <button id="convert-button6" type="button" class="convert-button mt16">変換 ↓</button>
+            <div class="layout-box mt16">
+              <div class="output-label">HSLA値<br>出力欄:</div>
+              <div id="output6" class="output-field">&nbsp;&nbsp;</div>
+              <button id="copy6" type="button" class="copy-button" onclick="copyToClipboard6(this)">←Copy</button>
+            </div> -->
+          </fieldset>
+        </details>
+      </div>
+      <hr class="h-rule mt40">
+      <section class="mt40">
+        <h2>使える外部カラーコード変換ツール・サイト</h2>
+        <ul class="list -itemized">
+          <li><a href="https://www.color-hex.com/" class="link" target="_blank">Color Hex Color Codes (外部リンク)</a></li>
+          <li><a href="https://www.webtoolss.com/colorcode2.html" class="link" target="_blank">カラーコード変換ツール2</a></li>
+        </ul>
+        <h2 class="mt16">関連・参考情報</h2>
+        <ul class="list -itemized">
+          <li><a href="https://developer.mozilla.org/ja/docs/Web/CSS/CSS_Colors/Applying_color" class="link" target="_blank">CSS を使った HTML の要素への色の適用 - CSS: カスケーディングスタイルシート | MDN (外部リンク)</a></li>
+          <ul>
+            <li><a href="https://developer.mozilla.org/ja/docs/Web/CSS/CSS_Colors/Applying_color#hsl_functional_notation" class="link" target="_blank">HSL 関数表記 (外部リンク)</a></li>
+          </ul>
+          <li><a href="https://www.w3schools.com/colors/default.asp" class="link" target="_blank">Colors Tutorial (外部リンク)</a></li>
+        </ul>
+      </section>
+    </div>
+  </body>
+</html>

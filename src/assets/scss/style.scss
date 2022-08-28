@@ -1,0 +1,13 @@
+// /**
+//  * ディレクトリ構成
+//  *   /base/ = リセットCSSやCSS変数、Sass mixinなど各種基礎設定
+//  *   /practical/ = Webページまたはビュー単位固有スタイル
+//  *   /general/ = 共通UI・コンポーネントスタイル
+//  *   /utility/ = 汎用・実利スタイル(ノンセマンティックスタイル)
+//  */
+
+@use './base/variable';
+@use './base/setting';
+@use './base/base';
+
+@use './practical/converter';

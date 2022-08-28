@@ -1,0 +1,134 @@
+// /**
+//  * CSS logical propaties
+//  * inline dimensionは横書き時水平方向のこと = width(一般時width)、block dimensionは横書き時縦方向のこと = height(一般時height)
+//  *  hr接頭辞はwriting-mode(書き字方向)プロパティのhorizontal-tb値(水平方向指定)を表す限定使用。writing-mode値(書き字方向)が異なる場合、mixin名とスタイルに食い違いが生じるので接頭辞を変えカスタマイズ使用のこと
+//  */
+
+// logical width, logical height
+@mixin hrWidth($value: auto) {
+  inline-size: $value;
+}
+
+@mixin hrMaxWidth($value: auto) {
+  max-inline-size: $value;
+}
+
+@mixin hrMinWidth($value: auto) {
+  min-inline-size: $value;
+}
+
+@mixin hrHeight($value: auto) {
+  block-size: $value;
+}
+
+@mixin hrMaxHeight($value: auto) {
+  max-block-size: $value;
+}
+
+@mixin hrMinHeight($value: auto) {
+  min-block-size: $value;
+}
+
+// logical margin
+@mixin hrMarginRightLeft($value: 0) {
+  margin-inline: $value;
+}
+
+@mixin hrMarginRight($value: 0) {
+  margin-inline-end: $value;
+}
+
+@mixin hrMarginLeft($value: 0) {
+  margin-inline-start: $value;
+}
+
+@mixin hrMarginTopBottom($value: 0) {
+  margin-block: $value;
+}
+
+@mixin hrMarginTop($value: 0) {
+  margin-block-start: $value;
+}
+
+@mixin hrMarginBottom($value: 0) {
+  margin-block-end: $value;
+}
+
+// logical borders
+@mixin hrBordeRightLeft($width: medium, $style: none, $color: currentcolor) {
+  border-inline: $width $style $color;
+}
+
+@mixin hrBorderTopBottom($width: medium, $style: none, $color: currentcolor) {
+  border-block: $width $style $color;
+}
+
+// logical padding
+@mixin hrPaddingRightLeft($value: 0) {
+  padding-inline: $value;
+}
+
+@mixin hrPaddingRight($value: 0) {
+  padding-inline-end: $value;
+}
+
+@mixin hrPaddingLeft($value: 0) {
+  padding-inline-start: $value;
+}
+
+@mixin hrPaddingTopBottom($value: 0) {
+  padding-block: $value;
+}
+
+@mixin hrPaddingBottom($value: 0) {
+  padding-block-end: $value;
+}
+
+@mixin hrPaddingTop($value: 0) {
+  padding-block-start: $value;
+}
+
+// helper-mixin
+
+// 0〜100px、上下左右5px単位で marginと paddingが付きます。
+// 命名規則：[margin,paddingの頭文字] + [top,right,bottom,left,allの頭文字] + [数値]
+// 例）mt10 => margin-top:10px;
+// 例）mt-10 => margin-top:-10px;
+
+// margin, paddingの余白調整用
+
+$margin-min: -10;
+$margin-max: 30;
+
+@for $i from $margin-min through $margin-max {
+  .mt#{$i * 2} {
+    margin-block-start: #{$i * 2}px !important;
+  }
+  .mr#{$i * 2} {
+    margin-inline-end: #{$i * 2}px !important;
+  }
+  .mb#{$i * 2} {
+    margin-block-end: #{$i * 2}px !important;
+  }
+  .ml#{$i * 2} {
+    margin-inline-start: #{$i * 2}px !important;
+  }
+}
+
+$padding-min: 1;
+$padding-max: 40;
+
+@for $i from $padding-min through $padding-max {
+  .pt#{$i * 2} {
+    padding-block-start: #{$i * 2}px !important;
+  }
+  .pr#{$i * 2} {
+    padding-inline-end: #{$i * 2}px  !important;
+  }
+  .pb#{$i * 2} {
+    padding-block-end: #{$i * 2}px !important;
+  }
+  .pl#{$i * 2} {
+    padding-inline-start: #{$i * 2}px !important;
+  }
+}
