@@ -338,7 +338,7 @@ function hexToHSL(H) {
       a = (a / 255).toFixed(2);
       aSpr = Number(String(a));
 
-      return 'hsla(' + h + ',' + s + '%,' + l + '%,' + aSpr + ')';
+      return 'hsla(' + h + ', ' + s + '%, ' + l + '%, ' + aSpr + ')';
     }
   } else if (H === '') {
     return 'Please enter value';
