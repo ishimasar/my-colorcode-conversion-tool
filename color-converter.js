@@ -620,6 +620,7 @@ async function copyToClipboard(obj) {
   if (navigator.clipboard && !element.textContent === false) {
     await navigator.clipboard.writeText(element.textContent);
     copy.textContent = 'Copied!';
+    console.log(element.textContent, element.value);
   } else if (!navigator.clipboard) {
     // localなどhttps/LTS通信環境外での代替手段
     if (document.execCommand) {
@@ -633,6 +634,7 @@ async function copyToClipboard(obj) {
       let execResult = document.execCommand('copy');
       inputEle.parentNode.removeChild(inputEle);
       // console.log('execCommand : ' + execResult);
+      console.log('test');
       copy.textContent = 'Copied!';
     }
   } else {
