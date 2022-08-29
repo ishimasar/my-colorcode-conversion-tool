@@ -69,6 +69,12 @@ summary {
     display: block;
     @include s.hrMarginTopBottom(16px);
     font-size: var(--36px-rem);
+    @media print, screen and (max-width: 24.96875em) {
+      font-size: var(--32px-rem);
+      .narrow {
+        display: none;
+      }
+    }
   }
   .sub {
     display: block;
@@ -89,6 +95,9 @@ summary {
   @media print, screen and (max-width: 47.96875em) {
     @include s.hrWidth(100%);
     margin: auto;
+  }
+  @media print, screen and (max-width: 24.96875em) {
+    padding: 12px;
   }
   &.-hxhs {
     background-color: hsla(182, 25%, 50%, .1);
@@ -122,6 +131,9 @@ summary {
   line-height: 1.8;
   font-size: var(--28px-rem);
   font-weight: 700;
+  @media print, screen and (max-width: 24.96875em) {
+    font-size: var(--24px-rem);
+  }
 }
 
 .layout-box {

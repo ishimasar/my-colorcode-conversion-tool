@@ -33,18 +33,9 @@
   // --72px-rem: 4.5rem;
   // --80px-rem: 5rem;
 
-  --base-font: Helvetica Neue,Segoe UI,Arial,Hiragino Kaku Gothic ProN,Hiragino Sans,BIZ UDPGothic,Meiryo,sans-serif;
-  --decorative-font: Hiragino Mincho Pro,BIZ UDPMincho,serif;
-  --logo-font: Brandon Grotesque Bold;
-  --sentence-font: var(--base-font);
-  --sentence-font-mb: var(--base-font);
-  --sentence-font-dt: var(--base-font);
-  --heading-font-mb: var(--base-font);
-  --heading-font-dt: var(--base-font);
-  --home-section-heading-font-mb: var(--decorative-font);
-  --home-section-heading-font-dt: var(--decorative-font);
-  --english-font: Brandon Grotesque Medium;
-  --english-font-print: Arial,sans-serif;
+  --base-font: Helvetica Neue, Segoe UI, Arial, Hiragino Kaku Gothic ProN, Hiragino Sans, BIZ UDPGothic, Meiryo, sans-serif;
+  --decorative-font: Hiragino Mincho Pro, BIZ UDPMincho, serif;
+  --english-font-print: Arial, sans-serif;
   --font-size-l4: 1rem * 8/3;
   --font-size-l3: 1rem * 8/4;
   --font-size-l2: 1rem * 8/5;
@@ -53,13 +44,11 @@
   --font-size-m1: 1rem;
   --font-size-s1: 1rem * 8/9;
   --font-size-s2: 1rem * 8/10;
-
   --frame-color: hsla(23, 36%, 23%, 1);
   --bg-pale-color: hsla(32, 62%, 96%, 1);
   --accent-color: hsla(229, 73%, 19%, 1);
   --focusring-color: hsla(217, 99%, 71%, 1);
   --error-color: hsla(350, 100%, 45%, 1);
-
   --black: hsla(0, 0%, 20%, 1);
   --white: hsla(0, 100%, 100%, 1);
   --contrast-limit-gray: hsla(0, 0%, 47%, 1);
@@ -77,6 +66,4 @@
   --textbox-hover-shadow: 0 12px 12px 0 rgba(0, 0, 0, .14), 0 5px 7px 0 rgba(0, 0, 0, .065);
   --in-transition: color .15s var(--ease-in-out-quad), background-color .15s var(--ease-in-out-quad), transform .15s var(--ease-in-out-quad);
   --out-transition: color .2s var(--ease-out-quad), background-color .2s var(--ease-in-out-quad), transform .2s var(--ease-in-out-quad);
-  --carousel-fade: opacity .7s var(--ease-in-quad);
-  --carousel-switch-effect: var(--in-transition), var(--carousel-fade);
 }

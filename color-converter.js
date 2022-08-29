@@ -1,14 +1,3 @@
-/*--------- Try colors here ----------*/
-var RGB = 'rgb(0,0,0)',
-  RGB_P = 'rgb(0%,0%,100%)',
-  RGBA = 'rgba(0,0,0,0.15)',
-  RGBA_P = 'rgba(0,0,0,0.15)',
-  HEX = '#333',
-  HEXA = '#333333ff',
-  HSL = 'hsl(240,100%,50%)',
-  HSLA = 'hsla(240,100%,50%,0.5)',
-  NAME = 'blue';
-
 /*------------ Functions -------------*/
 function RGBAToHexA(rgba) {
   let ex =

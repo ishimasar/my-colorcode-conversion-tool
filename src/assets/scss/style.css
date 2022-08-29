@@ -10,18 +10,9 @@
   --36px-rem: 2.25rem;
   --40px-rem: 2.5rem;
   --48px-rem: 3rem;
-  --base-font: Helvetica Neue,Segoe UI,Arial,Hiragino Kaku Gothic ProN,Hiragino Sans,BIZ UDPGothic,Meiryo,sans-serif;
-  --decorative-font: Hiragino Mincho Pro,BIZ UDPMincho,serif;
-  --logo-font: Brandon Grotesque Bold;
-  --sentence-font: var(--base-font);
-  --sentence-font-mb: var(--base-font);
-  --sentence-font-dt: var(--base-font);
-  --heading-font-mb: var(--base-font);
-  --heading-font-dt: var(--base-font);
-  --home-section-heading-font-mb: var(--decorative-font);
-  --home-section-heading-font-dt: var(--decorative-font);
-  --english-font: Brandon Grotesque Medium;
-  --english-font-print: Arial,sans-serif;
+  --base-font: Helvetica Neue, Segoe UI, Arial, Hiragino Kaku Gothic ProN, Hiragino Sans, BIZ UDPGothic, Meiryo, sans-serif;
+  --decorative-font: Hiragino Mincho Pro, BIZ UDPMincho, serif;
+  --english-font-print: Arial, sans-serif;
   --font-size-l4: 1rem * 8/3;
   --font-size-l3: 1rem * 8/4;
   --font-size-l2: 1rem * 8/5;
@@ -52,8 +43,6 @@
   --textbox-hover-shadow: 0 12px 12px 0 rgba(0, 0, 0, .14), 0 5px 7px 0 rgba(0, 0, 0, .065);
   --in-transition: color .15s var(--ease-in-out-quad), background-color .15s var(--ease-in-out-quad), transform .15s var(--ease-in-out-quad);
   --out-transition: color .2s var(--ease-out-quad), background-color .2s var(--ease-in-out-quad), transform .2s var(--ease-in-out-quad);
-  --carousel-fade: opacity .7s var(--ease-in-quad);
-  --carousel-switch-effect: var(--in-transition), var(--carousel-fade);
 }
 
 .mt-20 {
@@ -1852,6 +1841,14 @@ summary:hover {
   margin-block: 16px;
   font-size: var(--36px-rem);
 }
+@media print, screen and (max-width: 24.96875em) {
+  .page-heading .main {
+    font-size: var(--32px-rem);
+  }
+  .page-heading .main .narrow {
+    display: none;
+  }
+}
 .page-heading .sub {
   display: block;
   font-size: var(--20px-rem);
@@ -1874,6 +1871,11 @@ summary:hover {
   .tool-container {
     inline-size: 100%;
     margin: auto;
+  }
+}
+@media print, screen and (max-width: 24.96875em) {
+  .tool-container {
+    padding: 12px;
   }
 }
 .tool-container.-hxhs {
@@ -1911,6 +1913,11 @@ summary:hover {
   line-height: 1.8;
   font-size: var(--28px-rem);
   font-weight: 700;
+}
+@media print, screen and (max-width: 24.96875em) {
+  .legend {
+    font-size: var(--24px-rem);
+  }
 }
 
 .layout-box {
