@@ -627,18 +627,25 @@ button.addEventListener('click', () => {
 
 async function copyToClipboard(obj) {
   const element = obj.previousElementSibling;
-  if (document.execCommand && !element.textContent === false) {
-    // input要素生成
-    let inputEle = document.createElement('input');
-    inputEle.setAttribute('type', 'text');
-    inputEle.setAttribute('value', output.innerHTML);
-    document.body.appendChild(inputEle);
-    inputEle.select();
-    // コピー実行
-    let execResult = document.execCommand('copy');
-    inputEle.parentNode.removeChild(inputEle);
-    // console.log('execCommand : ' + execResult);
+  // https/LTS通信環境でのみ、このClipboard API記述が使用可能
+  if (navigator.clipboard && !element.textContent === false) {
+    await navigator.clipboard.writeText(element.textContent);
     copy.textContent = 'Copied!';
+  } else if (!navigator.clipboard) {
+    // localなどhttps/LTS通信環境外での代替手段
+    if (document.execCommand) {
+      // input要素生成
+      let inputEle = document.createElement('input');
+      inputEle.setAttribute('type', 'text');
+      inputEle.setAttribute('value', output.innerHTML);
+      document.body.appendChild(inputEle);
+      inputEle.select();
+      // コピー実行
+      let execResult = document.execCommand('copy');
+      inputEle.parentNode.removeChild(inputEle);
+      // console.log('execCommand : ' + execResult);
+      copy.textContent = 'Copied!';
+    }
   } else {
     copy.textContent = 'Not Copied!';
   }
@@ -656,29 +663,26 @@ button2.addEventListener('click', () => {
 
 async function copyToClipboard2(obj) {
   const element = obj.previousElementSibling;
-  if (document.execCommand && !element.textContent === false) {
-    // input要素生成
-    let inputEle = document.createElement('input');
-    inputEle.setAttribute('type', 'text');
-    inputEle.setAttribute('value', output2.innerHTML);
-    document.body.appendChild(inputEle);
-    inputEle.select();
-    // コピー実行
-    let execResult = document.execCommand('copy');
-    inputEle.parentNode.removeChild(inputEle);
-    // console.log('execCommand : ' + execResult);
+  // https/LTS通信環境でのみ、このClipboard API記述が使用可能
+  if (navigator.clipboard && !element.textContent === false) {
+    await navigator.clipboard.writeText(element.textContent);
     copy2.textContent = 'Copied!';
+  } else if (!navigator.clipboard) {
+    // localなどhttps/LTS通信環境外での代替手段
+    if (document.execCommand) {
+      // input要素生成
+      let inputEle = document.createElement('input');
+      inputEle.setAttribute('type', 'text');
+      inputEle.setAttribute('value', output2.innerHTML);
+      document.body.appendChild(inputEle);
+      inputEle.select();
+      // コピー実行
+      let execResult = document.execCommand('copy');
+      inputEle.parentNode.removeChild(inputEle);
+      // console.log('execCommand : ' + execResult);
+      copy2.textContent = 'Copied!';
+    }
   } else {
     copy2.textContent = 'Not Copied!';
-  }
-}
-
-copyPageUrl();
-async function copyPageUrl() {
-  try {
-    await navigator.clipboard.writeText(location.href);
-    console.log('Page URL copied to clipboard');
-  } catch (err) {
-    console.error('Failed to copy: ', err);
   }
 }
