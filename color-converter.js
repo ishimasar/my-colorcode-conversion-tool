@@ -1,147 +1,351 @@
-/*------------ Functions -------------*/
-function RGBAToHexA(rgba) {
-  let ex =
-    /^rgba\((((((((1?[1-9]?\d)|10\d|(2[0-4]\d)|25[0-5]),\s?)){3})|(((([1-9]?\d(\.\d+)?)|100|(\.\d+))%,\s?){3}))|(((((1?[1-9]?\d)|10\d|(2[0-4]\d)|25[0-5])\s){3})|(((([1-9]?\d(\.\d+)?)|100|(\.\d+))%\s){3}))\/\s)((0?\.\d+)|[01]|(([1-9]?\d(\.\d+)?)|100|(\.\d+))%)\)$/i;
-  if (ex.test(rgba)) {
-    let sep = rgba.indexOf(',') > -1 ? ',' : ' ';
-    rgba = rgba.substr(5).split(')')[0].split(sep);
+/**
+ * This class converts various color codes. HSLA is assumed.
+ */
+class ColorConverter {
+  constructor(convertButton, output, copy, colorType) {
+    this.button = document.getElementById(convertButton);
+    this.output = document.getElementById(output);
+    this.copy = document.getElementById(copy);
+    this.colorType = document.getElementById(colorType);
+  }
 
-    // strip the slash if using space-separated syntax
-    if (rgba.indexOf('/') > -1) rgba.splice(3, 1);
+  /**
+   * Private method. Append an underscore to the name.
+   * @param {HTMLElement} obj
+   */
+  async _copyToClipboard(obj) {
+    this.element = obj.previousElementSibling;
+    // This Clipboard API description can be used only in the https/LTS communication environment.
+    if (navigator.clipboard && !this.element.textContent === false) {
+      await navigator.clipboard.writeText(this.element.textContent);
+      this.copy.textContent = 'Copied!';
+    } else if (!navigator.clipboard) {
+      // Alternatives outside the https/LTS communication environment such as local.
+      if (document.execCommand) {
+        // Generate input element.
+        this.inputEle = document.createElement('input');
+        this.inputEle.setAttribute('type', 'text');
+        this.inputEle.setAttribute('value', this.output.innerHTML);
+        document.body.appendChild(this.inputEle);
+        this.inputEle.select();
+        // Execute copy.
+        this.execResult = document.execCommand('copy');
+        this.inputEle.parentNode.removeChild(this.inputEle);
+        // console.log('execCommand : ' + this.execResult);
+        this.copy.textContent = 'Copied!';
+      }
+    } else {
+      this.copy.textContent = 'Not Copied!';
+    }
+  }
 
-    for (let R in rgba) {
-      let r = rgba[R];
-      if (r.indexOf('%') > -1) {
-        let p = r.substr(0, r.length - 1) / 100;
+  _method(H) {}
 
-        if (R < 3) {
-          rgba[R] = Math.round(p * 255);
-        } else {
-          rgba[R] = p;
+  /**
+   * Public method.
+   */
+  convertCode() {
+    this.button.addEventListener('click', () => {
+      this.val = this.colorType.value;
+      this.t = this._method(this.val);
+      this.output.innerText = this.t;
+      this.copy.innerText = '←Copy';
+    });
+  }
+
+  copyString() {
+    this.copy.addEventListener('click', () => {
+      return this._copyToClipboard(this.copy);
+    });
+  }
+}
+
+class HexAToHSLA extends ColorConverter {
+  constructor(convertButton, output, copy, colorType) {
+    super(convertButton, output, copy, colorType);
+  }
+
+  /**
+   * Method to convert Hex(A) to HSLA
+   * @param {string} H
+   */
+  _method(H) {
+    // console.log('P', H);
+    if (H.length === 4 || H.length === 7) {
+      let ex = /^#([\da-f]{3}){1,2}$/i;
+      if (ex.test(H)) {
+        // convert hex to RGB first
+        let r = 0,
+          g = 0,
+          b = 0;
+        if (H.length === 4) {
+          r = '0x' + H[1] + H[1];
+          g = '0x' + H[2] + H[2];
+          b = '0x' + H[3] + H[3];
+        } else if (H.length === 7) {
+          r = '0x' + H[1] + H[2];
+          g = '0x' + H[3] + H[4];
+          b = '0x' + H[5] + H[6];
+        }
+        // then to HSL
+        r /= 255;
+        g /= 255;
+        b /= 255;
+        let cmin = Math.min(r, g, b),
+          cmax = Math.max(r, g, b),
+          delta = cmax - cmin,
+          h = 0,
+          s = 0,
+          l = 0;
+
+        if (delta === 0) h = 0;
+        else if (cmax === r) h = ((g - b) / delta) % 6;
+        else if (cmax === g) h = (b - r) / delta + 2;
+        else h = (r - g) / delta + 4;
+
+        h = Math.round(h * 60);
+
+        if (h < 0) h += 360;
+
+        l = (cmax + cmin) / 2;
+        s = delta === 0 ? 0 : delta / (1 - Math.abs(2 * l - 1));
+        s = +(s * 100).toFixed(0);
+        l = +(l * 100).toFixed(0);
+
+        return 'hsla(' + h + ', ' + s + '%, ' + l + '%, 1)';
+      }
+    } else if (H.length === 5 || H.length === 9) {
+      let ex = /^#([\da-f]{4}){1,2}$/i;
+      if (ex.test(H)) {
+        let r = 0,
+          g = 0,
+          b = 0,
+          a = 1;
+        // 4 digits
+        if (H.length === 5) {
+          r = '0x' + H[1] + H[1];
+          g = '0x' + H[2] + H[2];
+          b = '0x' + H[3] + H[3];
+          a = '0x' + H[4] + H[4];
+          // 8 digits
+        } else if (H.length === 9) {
+          r = '0x' + H[1] + H[2];
+          g = '0x' + H[3] + H[4];
+          b = '0x' + H[5] + H[6];
+          a = '0x' + H[7] + H[8];
+        }
+
+        // normal conversion to HSLA
+        r /= 255;
+        g /= 255;
+        b /= 255;
+        let cmin = Math.min(r, g, b),
+          cmax = Math.max(r, g, b),
+          delta = cmax - cmin,
+          h = 0,
+          s = 0,
+          l = 0;
+
+        if (delta === 0) h = 0;
+        else if (cmax === r) h = ((g - b) / delta) % 6;
+        else if (cmax === g) h = (b - r) / delta + 2;
+        else h = (r - g) / delta + 4;
+
+        h = Math.round(h * 60);
+
+        if (h < 0) h += 360;
+
+        l = (cmax + cmin) / 2;
+        s = delta === 0 ? 0 : delta / (1 - Math.abs(2 * l - 1));
+        s = +(s * 100).toFixed(0);
+        l = +(l * 100).toFixed(0);
+
+        a = (a / 255).toFixed(2);
+        this.aSpr = Number(String(a));
+
+        return 'hsla(' + h + ', ' + s + '%, ' + l + '%, ' + this.aSpr + ')';
+      }
+    } else if (H === '') {
+      return 'Please enter value';
+    } else {
+      return 'Invalid input color';
+    }
+  }
+
+  hexAToHSLA() {
+    super.convertCode();
+    super.copyString();
+  }
+}
+const convertHexAToHSLA = new HexAToHSLA(
+  'convert-button-hxhs',
+  'output-hxhs',
+  'copy-hxhs',
+  'hex'
+);
+convertHexAToHSLA.hexAToHSLA();
+
+// ---
+
+class NameToHSLA extends ColorConverter {
+  constructor(convertButton, output, copy, colorType) {
+    super(convertButton, output, copy, colorType);
+  }
+
+  /**
+   * Method to convert ColorName to HSLA
+   * @param {string} name
+   */
+  _method(name) {
+    if (name !== '') {
+      let fakeDiv = document.createElement('div');
+      fakeDiv.style.color = name;
+      document.body.appendChild(fakeDiv);
+
+      let cs = window.getComputedStyle(fakeDiv),
+        pv = cs.getPropertyValue('color');
+
+      document.body.removeChild(fakeDiv);
+
+      // code ripped from RGBToHSL() (except pv is substringed)
+      let rgb = pv.substr(4).split(')')[0].split(','),
+        r = rgb[0] / 255,
+        g = rgb[1] / 255,
+        b = rgb[2] / 255,
+        cmin = Math.min(r, g, b),
+        cmax = Math.max(r, g, b),
+        delta = cmax - cmin,
+        h = 0,
+        s = 0,
+        l = 0;
+
+      if (delta == 0) h = 0;
+      else if (cmax == r) h = ((g - b) / delta) % 6;
+      else if (cmax == g) h = (b - r) / delta + 2;
+      else h = (r - g) / delta + 4;
+
+      h = Math.round(h * 60);
+
+      if (h < 0) h += 360;
+
+      l = (cmax + cmin) / 2;
+      s = delta == 0 ? 0 : delta / (1 - Math.abs(2 * l - 1));
+      s = +(s * 100).toFixed(0);
+      l = +(l * 100).toFixed(0);
+
+      return 'hsla(' + h + ', ' + s + '%, ' + l + '%, 1)';
+    } else if (name === '') {
+      return 'Please enter value';
+    } else {
+      return 'Invalid input color';
+    }
+  }
+
+  nameToHSLA() {
+    super.convertCode();
+    super.copyString();
+  }
+}
+const convertNameToHSLA = new NameToHSLA(
+  'convert-button-cnhs',
+  'output-cnhs',
+  'copy-cnhs',
+  'color-name'
+);
+convertNameToHSLA.nameToHSLA();
+
+// ---
+
+class RGBAToHSLA extends ColorConverter {
+  constructor(convertButton, output, copy, colorType) {
+    super(convertButton, output, copy, colorType);
+  }
+
+  /**
+   * Method to convert RGBA to HSLA
+   * @param {string} rgba
+   */
+  _method(rgba) {
+    let ex =
+      /^rgba\((((((((1?[1-9]?\d)|10\d|(2[0-4]\d)|25[0-5]),\s?)){3})|(((([1-9]?\d(\.\d+)?)|100|(\.\d+))%,\s?){3}))|(((((1?[1-9]?\d)|10\d|(2[0-4]\d)|25[0-5])\s){3})|(((([1-9]?\d(\.\d+)?)|100|(\.\d+))%\s){3}))\/\s)((0?\.\d+)|[01]|(([1-9]?\d(\.\d+)?)|100|(\.\d+))%)\)$/i;
+    if (ex.test(rgba)) {
+      let sep = rgba.indexOf(',') > -1 ? ',' : ' ';
+      rgba = rgba.substr(5).split(')')[0].split(sep);
+
+      // strip the slash if using space-separated syntax
+      if (rgba.indexOf('/') > -1) rgba.splice(3, 1);
+
+      for (let R in rgba) {
+        let r = rgba[R];
+        if (r.indexOf('%') > -1) {
+          let p = r.substr(0, r.length - 1) / 100;
+
+          if (R < 3) {
+            rgba[R] = Math.round(p * 255);
+          }
         }
       }
+
+      // make r, g, and b fractions of 1
+      let r = rgba[0] / 255,
+        g = rgba[1] / 255,
+        b = rgba[2] / 255,
+        a = rgba[3],
+        // find greatest and smallest channel values
+        cmin = Math.min(r, g, b),
+        cmax = Math.max(r, g, b),
+        delta = cmax - cmin,
+        h = 0,
+        s = 0,
+        l = 0;
+
+      // calculate hue
+      // no difference
+      if (delta == 0) h = 0;
+      // red is max
+      else if (cmax == r) h = ((g - b) / delta) % 6;
+      // green is max
+      else if (cmax == g) h = (b - r) / delta + 2;
+      // blue is max
+      else h = (r - g) / delta + 4;
+
+      h = Math.round(h * 60);
+
+      // make negative hues positive behind 360°
+      if (h < 0) h += 360;
+
+      // calculate lightness
+      l = (cmax + cmin) / 2;
+
+      // calculate saturation
+      s = delta == 0 ? 0 : delta / (1 - Math.abs(2 * l - 1));
+
+      // multiply l and s by 100
+      s = +(s * 100).toFixed(0);
+      l = +(l * 100).toFixed(0);
+
+      return 'hsla(' + h + ', ' + s + '%, ' + l + '%, ' + a + ')';
+    } else if (rgba === '') {
+      return 'Please enter value';
+    } else {
+      return 'Invalid input color';
     }
+  }
 
-    let r = (+rgba[0]).toString(16),
-      g = (+rgba[1]).toString(16),
-      b = (+rgba[2]).toString(16),
-      a = Math.round(+rgba[3] * 255).toString(16);
-
-    if (r.length == 1) r = '0' + r;
-    if (g.length == 1) g = '0' + g;
-    if (b.length == 1) b = '0' + b;
-    if (a.length == 1) a = '0' + a;
-
-    return '#' + r + g + b + a;
-  } else {
-    return 'Invalid input color';
+  RGBAToHSLA() {
+    super.convertCode();
+    super.copyString();
   }
 }
+const convertRGBAToHSLA = new RGBAToHSLA(
+  'convert-button-rghs',
+  'output-rghs',
+  'copy-rghs',
+  'rgba'
+);
+convertRGBAToHSLA.RGBAToHSLA();
 
-function hexAToRGBA(h, isPct) {
-  let ex = /^#([\da-f]{4}){1,2}$/i;
-  if (ex.test(h)) {
-    let r = 0,
-      g = 0,
-      b = 0,
-      a = 1;
-    isPct = isPct === true;
-
-    if (h.length == 5) {
-      r = '0x' + h[1] + h[1];
-      g = '0x' + h[2] + h[2];
-      b = '0x' + h[3] + h[3];
-      a = '0x' + h[4] + h[4];
-    } else if (h.length == 9) {
-      r = '0x' + h[1] + h[2];
-      g = '0x' + h[3] + h[4];
-      b = '0x' + h[5] + h[6];
-      a = '0x' + h[7] + h[8];
-    }
-    a = +(a / 255).toFixed(3);
-    if (isPct) {
-      r = +((r / 255) * 100).toFixed(1);
-      g = +((g / 255) * 100).toFixed(1);
-      b = +((b / 255) * 100).toFixed(1);
-      a = +(a * 100).toFixed(1);
-    }
-
-    return (
-      'rgba(' +
-      (isPct
-        ? r + '%,' + g + '%,' + b + '%' + ',' + a
-        : +r + ',' + +g + ',' + +b + ',' + a) +
-      ')'
-    );
-  } else {
-    return 'Invalid input color';
-  }
-}
-
-function RGBAToHSLA(rgba) {
-  let ex =
-    /^rgba\((((((((1?[1-9]?\d)|10\d|(2[0-4]\d)|25[0-5]),\s?)){3})|(((([1-9]?\d(\.\d+)?)|100|(\.\d+))%,\s?){3}))|(((((1?[1-9]?\d)|10\d|(2[0-4]\d)|25[0-5])\s){3})|(((([1-9]?\d(\.\d+)?)|100|(\.\d+))%\s){3}))\/\s)((0?\.\d+)|[01]|(([1-9]?\d(\.\d+)?)|100|(\.\d+))%)\)$/i;
-  if (ex.test(rgba)) {
-    let sep = rgba.indexOf(',') > -1 ? ',' : ' ';
-    rgba = rgba.substr(5).split(')')[0].split(sep);
-
-    // strip the slash if using space-separated syntax
-    if (rgba.indexOf('/') > -1) rgba.splice(3, 1);
-
-    for (let R in rgba) {
-      let r = rgba[R];
-      if (r.indexOf('%') > -1) {
-        let p = r.substr(0, r.length - 1) / 100;
-
-        if (R < 3) {
-          rgba[R] = Math.round(p * 255);
-        }
-      }
-    }
-
-    // make r, g, and b fractions of 1
-    let r = rgba[0] / 255,
-      g = rgba[1] / 255,
-      b = rgba[2] / 255,
-      a = rgba[3],
-      // find greatest and smallest channel values
-      cmin = Math.min(r, g, b),
-      cmax = Math.max(r, g, b),
-      delta = cmax - cmin,
-      h = 0,
-      s = 0,
-      l = 0;
-
-    // calculate hue
-    // no difference
-    if (delta == 0) h = 0;
-    // red is max
-    else if (cmax == r) h = ((g - b) / delta) % 6;
-    // green is max
-    else if (cmax == g) h = (b - r) / delta + 2;
-    // blue is max
-    else h = (r - g) / delta + 4;
-
-    h = Math.round(h * 60);
-
-    // make negative hues positive behind 360°
-    if (h < 0) h += 360;
-
-    // calculate lightness
-    l = (cmax + cmin) / 2;
-
-    // calculate saturation
-    s = delta == 0 ? 0 : delta / (1 - Math.abs(2 * l - 1));
-
-    // multiply l and s by 100
-    s = +(s * 100).toFixed(1);
-    l = +(l * 100).toFixed(1);
-
-    return 'hsla(' + h + ',' + s + '%,' + l + '%,' + a + ')';
-  } else {
-    return 'Invalid input color';
-  }
-}
+// Refactored from here onwards
 
 function HSLAToRGBA(hsla, isPct) {
   let ex =
@@ -228,165 +432,6 @@ function HSLAToRGBA(hsla, isPct) {
         : +r + ',' + +g + ',' + +b + ',' + +a) +
       ')'
     );
-  } else {
-    return 'Invalid input color';
-  }
-}
-
-function hexToHSL(H) {
-  // console.log('P', H);
-  if (H.length === 4 || H.length === 7) {
-    let ex = /^#([\da-f]{3}){1,2}$/i;
-    if (ex.test(H)) {
-      // convert hex to RGB first
-      let r = 0,
-        g = 0,
-        b = 0;
-      if (H.length == 4) {
-        r = '0x' + H[1] + H[1];
-        g = '0x' + H[2] + H[2];
-        b = '0x' + H[3] + H[3];
-      } else if (H.length == 7) {
-        r = '0x' + H[1] + H[2];
-        g = '0x' + H[3] + H[4];
-        b = '0x' + H[5] + H[6];
-      }
-      // then to HSL
-      r /= 255;
-      g /= 255;
-      b /= 255;
-      let cmin = Math.min(r, g, b),
-        cmax = Math.max(r, g, b),
-        delta = cmax - cmin,
-        h = 0,
-        s = 0,
-        l = 0;
-
-      if (delta == 0) h = 0;
-      else if (cmax == r) h = ((g - b) / delta) % 6;
-      else if (cmax == g) h = (b - r) / delta + 2;
-      else h = (r - g) / delta + 4;
-
-      h = Math.round(h * 60);
-
-      if (h < 0) h += 360;
-
-      l = (cmax + cmin) / 2;
-      s = delta == 0 ? 0 : delta / (1 - Math.abs(2 * l - 1));
-      s = +(s * 100).toFixed(0);
-      l = +(l * 100).toFixed(0);
-
-      return 'hsla(' + h + ', ' + s + '%, ' + l + '%, 1)';
-    }
-  } else if (H.length === 5 || H.length === 9) {
-    let ex = /^#([\da-f]{4}){1,2}$/i;
-    if (ex.test(H)) {
-      let r = 0,
-        g = 0,
-        b = 0,
-        a = 1;
-      // 4 digits
-      if (H.length == 5) {
-        r = '0x' + H[1] + H[1];
-        g = '0x' + H[2] + H[2];
-        b = '0x' + H[3] + H[3];
-        a = '0x' + H[4] + H[4];
-        // 8 digits
-      } else if (H.length == 9) {
-        r = '0x' + H[1] + H[2];
-        g = '0x' + H[3] + H[4];
-        b = '0x' + H[5] + H[6];
-        a = '0x' + H[7] + H[8];
-      }
-
-      // normal conversion to HSLA
-      r /= 255;
-      g /= 255;
-      b /= 255;
-      let cmin = Math.min(r, g, b),
-        cmax = Math.max(r, g, b),
-        delta = cmax - cmin,
-        h = 0,
-        s = 0,
-        l = 0;
-
-      if (delta == 0) h = 0;
-      else if (cmax == r) h = ((g - b) / delta) % 6;
-      else if (cmax == g) h = (b - r) / delta + 2;
-      else h = (r - g) / delta + 4;
-
-      h = Math.round(h * 60);
-
-      if (h < 0) h += 360;
-
-      l = (cmax + cmin) / 2;
-      s = delta == 0 ? 0 : delta / (1 - Math.abs(2 * l - 1));
-      s = +(s * 100).toFixed(0);
-      l = +(l * 100).toFixed(0);
-
-      a = (a / 255).toFixed(2);
-      aSpr = Number(String(a));
-
-      return 'hsla(' + h + ', ' + s + '%, ' + l + '%, ' + aSpr + ')';
-    }
-  } else if (H === '') {
-    return 'Please enter value';
-  } else {
-    return 'Invalid input color';
-  }
-}
-
-function hexAToHSLA(H) {
-  console.log('H', H);
-  let ex = /^#([\da-f]{4}){1,2}$/i;
-  if (ex.test(H)) {
-    let r = 0,
-      g = 0,
-      b = 0,
-      a = 1;
-    // 4 digits
-    if (H.length == 5) {
-      r = '0x' + H[1] + H[1];
-      g = '0x' + H[2] + H[2];
-      b = '0x' + H[3] + H[3];
-      a = '0x' + H[4] + H[4];
-      // 8 digits
-    } else if (H.length == 9) {
-      r = '0x' + H[1] + H[2];
-      g = '0x' + H[3] + H[4];
-      b = '0x' + H[5] + H[6];
-      a = '0x' + H[7] + H[8];
-    }
-
-    // normal conversion to HSLA
-    r /= 255;
-    g /= 255;
-    b /= 255;
-    let cmin = Math.min(r, g, b),
-      cmax = Math.max(r, g, b),
-      delta = cmax - cmin,
-      h = 0,
-      s = 0,
-      l = 0;
-
-    if (delta == 0) h = 0;
-    else if (cmax == r) h = ((g - b) / delta) % 6;
-    else if (cmax == g) h = (b - r) / delta + 2;
-    else h = (r - g) / delta + 4;
-
-    h = Math.round(h * 60);
-
-    if (h < 0) h += 360;
-
-    l = (cmax + cmin) / 2;
-    s = delta == 0 ? 0 : delta / (1 - Math.abs(2 * l - 1));
-    s = +(s * 100).toFixed(1);
-    l = +(l * 100).toFixed(1);
-
-    a = (a / 255).toFixed(1);
-    aSpr = Number(String(a));
-
-    return 'hsla(' + h + ',' + s + '%,' + l + '%,' + aSpr + ')';
   } else {
     return 'Invalid input color';
   }
@@ -530,148 +575,5 @@ function HSLAToHexA(hsla) {
     return '#' + r + g + b + a;
   } else {
     return 'Invalid input color';
-  }
-}
-
-function nameToHex(name) {
-  // get RGB from named color in div
-  let fakeDiv = document.createElement('div');
-  fakeDiv.style.color = name;
-  document.body.appendChild(fakeDiv);
-
-  let cs = window.getComputedStyle(fakeDiv),
-    pv = cs.getPropertyValue('color');
-
-  document.body.removeChild(fakeDiv);
-
-  // code ripped from RGBToHex() (except pv is substringed)
-  let rgb = pv.substr(4).split(')')[0].split(','),
-    r = (+rgb[0]).toString(16),
-    g = (+rgb[1]).toString(16),
-    b = (+rgb[2]).toString(16);
-
-  if (r.length == 1) r = '0' + r;
-  if (g.length == 1) g = '0' + g;
-  if (b.length == 1) b = '0' + b;
-
-  return '#' + r + g + b;
-}
-
-function nameToHSLA(name) {
-  if (name !== '') {
-    let fakeDiv = document.createElement('div');
-    fakeDiv.style.color = name;
-    document.body.appendChild(fakeDiv);
-
-    let cs = window.getComputedStyle(fakeDiv),
-      pv = cs.getPropertyValue('color');
-
-    document.body.removeChild(fakeDiv);
-
-    // code ripped from RGBToHSL() (except pv is substringed)
-    let rgb = pv.substr(4).split(')')[0].split(','),
-      r = rgb[0] / 255,
-      g = rgb[1] / 255,
-      b = rgb[2] / 255,
-      cmin = Math.min(r, g, b),
-      cmax = Math.max(r, g, b),
-      delta = cmax - cmin,
-      h = 0,
-      s = 0,
-      l = 0;
-
-    if (delta == 0) h = 0;
-    else if (cmax == r) h = ((g - b) / delta) % 6;
-    else if (cmax == g) h = (b - r) / delta + 2;
-    else h = (r - g) / delta + 4;
-
-    h = Math.round(h * 60);
-
-    if (h < 0) h += 360;
-
-    l = (cmax + cmin) / 2;
-    s = delta == 0 ? 0 : delta / (1 - Math.abs(2 * l - 1));
-    s = +(s * 100).toFixed(0);
-    l = +(l * 100).toFixed(0);
-
-    return 'hsla(' + h + ', ' + s + '%, ' + l + '%, 1)';
-  } else if (name === '') {
-    return 'Please enter value';
-  } else {
-    return 'Invalid input color';
-  }
-}
-
-const button = document.getElementById('convert-button');
-const output = document.getElementById('output');
-const copy = document.getElementById('copy');
-
-button.addEventListener('click', () => {
-  const hex = document.getElementById('hex');
-  const hexValue = hex.value;
-  const t = hexToHSL(hexValue);
-  output.innerText = t;
-  copy.innerText = '←Copy';
-});
-
-async function copyToClipboard(obj) {
-  const element = obj.previousElementSibling;
-  // https/LTS通信環境でのみ、このClipboard API記述が使用可能
-  if (navigator.clipboard && !element.textContent === false) {
-    await navigator.clipboard.writeText(element.textContent);
-    copy.textContent = 'Copied!';
-  } else if (!navigator.clipboard) {
-    // localなどhttps/LTS通信環境外での代替手段
-    if (document.execCommand) {
-      // input要素生成
-      let inputEle = document.createElement('input');
-      inputEle.setAttribute('type', 'text');
-      inputEle.setAttribute('value', output.innerHTML);
-      document.body.appendChild(inputEle);
-      inputEle.select();
-      // コピー実行
-      let execResult = document.execCommand('copy');
-      inputEle.parentNode.removeChild(inputEle);
-      // console.log('execCommand : ' + execResult);
-      copy.textContent = 'Copied!';
-    }
-  } else {
-    copy.textContent = 'Not Copied!';
-  }
-}
-
-const button2 = document.getElementById('convert-button2');
-
-button2.addEventListener('click', () => {
-  const cName = document.getElementById('color-name');
-  const cNameValue = cName.value;
-  const t = nameToHSLA(cNameValue);
-  output2.innerText = t;
-  copy2.innerText = '←Copy';
-});
-
-async function copyToClipboard2(obj) {
-  const element = obj.previousElementSibling;
-  // https/LTS通信環境でのみ、このClipboard API記述が使用可能
-  if (navigator.clipboard && !element.textContent === false) {
-    await navigator.clipboard.writeText(element.textContent);
-    copy2.textContent = 'Copied!';
-  } else if (!navigator.clipboard) {
-    // localなどhttps/LTS通信環境外での代替手段
-    if (document.execCommand) {
-      // input要素生成
-      let inputEle = document.createElement('input');
-      inputEle.setAttribute('type', 'text');
-      inputEle.setAttribute('value', output2.innerHTML);
-      document.body.appendChild(inputEle);
-      inputEle.select();
-      // コピー実行
-      let execResult = document.execCommand('copy');
-      inputEle.parentNode.removeChild(inputEle);
-      // console.log('execCommand : ' + execResult);
-      copy2.textContent = 'Copied!';
-    }
-  } else {
-    copy2.textContent = 'Not Copied!';
   }
 }
