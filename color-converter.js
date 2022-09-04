@@ -354,7 +354,7 @@ class RGBAToHSLA extends ColorConverter {
       s = +(s * 100).toFixed(0);
       l = +(l * 100).toFixed(0);
 
-      return 'hsla(' + h + ', ' + s + '%, ' + l + '%, ' + a + ')';
+      return 'hsla(' + h + ', ' + s + '%, ' + l + '%,' + a + ')';
     } else if (ex2.test(rgba)) {
       let sep = rgba.indexOf(',') > -1 ? ',' : ' ';
       rgba = rgba.substr(4).split(')')[0].split(sep);
