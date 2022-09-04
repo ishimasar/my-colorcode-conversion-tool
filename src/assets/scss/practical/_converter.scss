@@ -100,19 +100,29 @@ summary {
     padding: 12px;
   }
   &.-hxhs {
-    background-color: hsla(182, 25%, 50%, .1);
-  }
-  &.-cnhs {
-    background-color: hsla(207, 44%, 49%, .1);
-  }
-  &.-rghs {
-    background-color: hsla(240, 64%, 27%, .1);
-  }
-  &.-hshx {
     background-color: hsla(195, 100%, 50%, .2);
   }
+  &.-cnhs {
+    background-color: hsla(146, 44%, 49%, .2);
+  }
+  &.-rghs {
+    background-color: hsla(350, 80%, 40%, .2);
+  }
+  &.-hshx {
+    background-color: hsla(36, 80%, 40%, .2);
+  }
   &.-hsrg {
-    background-color:  hsla(248, 53%, 58%, .2);
+    background-color: hsla(271, 32%, 60%, .2);
+  }
+  &.-cyhs {
+    background-color: hsla(175, 20%, 50%, .2);
+  }
+  .alert {
+    font-weight: 600;
+    font-size: var(--20px-rem);
+  }
+  .align-right {
+    @include s.hrMarginLeft(auto);
   }
 }
 

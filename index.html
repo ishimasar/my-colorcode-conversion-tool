@@ -46,8 +46,8 @@
           <fieldset class="tool-container -rghs">
             <legend class="legend">RGBA→HSLA変換</legend>
             <div class="layout-box">
-              <label for="rgba" class="label">RGBA値入力欄:</label>
-              <input id="rgba" type="text" name="rgba" class="input-field" placeholder="ex. rgba(0, 0, 255, 0.5)">
+              <label for="rgba" class="label">RGBA値入力欄:<br>(RGB入力可)</label>
+              <input id="rgba" type="text" name="rgba" class="input-field" placeholder="ex. rgba(0, 0, 255, 0.5) or rgb(0, 0, 255)">
             </div>
             <button id="convert-button-rghs" type="button" class="convert-button mt16">変換 ↓</button>
             <div class="layout-box mt16">
@@ -56,47 +56,45 @@
               <button id="copy-rghs" type="button" class="copy-button">←Copy</button>
             </div>
           </fieldset>
-          <div>※RGB値(-A)も変換するようにする予定</div>
         </details>
         <details class="mt32">
           <summary>HSLA→Hex変換</summary>
           <fieldset class="tool-container -hshx">
             <legend class="legend">HSLA→Hex変換</legend>
-            <div class="alert">開発中 ☕️</div>
-            <!-- <div class="layout-box">
-              <label for="hsla" class="label">HSLA値入力欄:</label>
-              <input id="hsla" type="text" name="hsla" class="input-field" placeholder="ex.">
+            <div class="layout-box">
+              <label for="hsla-hx" class="label">HSLA値入力欄:<br>(HSL入力可)</label>
+              <input id="hsla-hx" type="text" name="hsla-hx" class="input-field" placeholder="ex. hsla(60, 100%, 50%, 1) or hsl(~)">
             </div>
-            <button id="convert-button4" type="button" class="convert-button mt16">変換 ↓</button>
+            <button id="convert-button-hshx" type="button" class="convert-button mt16">変換 ↓</button>
             <div class="layout-box mt16">
-              <div class="output-label">RGBA値<br>出力欄:</div>
-              <div id="output4" class="output-field">&nbsp;&nbsp;</div>
-              <button id="copy4" type="button" class="copy-button" onclick="copyToClipboard4(this)">←Copy</button>
-            </div> -->
+              <div class="output-label">Hex値<br>出力欄:</div>
+              <div id="output-hshx" class="output-field">&nbsp;&nbsp;</div>
+              <button id="copy-hshx" type="button" class="copy-button">←Copy</button>
+            </div>
+            <div class="mt8 align-right">※HexA形式では出力しない</div>
           </fieldset>
         </details>
         <details class="mt32">
           <summary>HSLA→RGBA変換</summary>
           <fieldset class="tool-container -hsrg">
             <legend class="legend">HSLA→RGBA変換</legend>
-            <div class="alert">開発中 😭</div>
-            <!-- <div class="layout-box">
-              <label for="hsla2" class="label">HSLA値入力欄:</label>
-              <input id="hsla2" type="text" name="hsla2" class="input-field" placeholder="ex.">
+            <div class="layout-box">
+              <label for="hsla-rg" class="label">HSLA値入力欄:</label>
+              <input id="hsla-rg" type="text" name="hsla-rg" class="input-field" placeholder="ex. hsla(60, 100%, 50%, 1) or hsl(~)">
             </div>
-            <button id="convert-button5" type="button" class="convert-button mt16">変換 ↓</button>
+            <button id="convert-button-hsrg" type="button" class="convert-button mt16">変換 ↓</button>
             <div class="layout-box mt16">
               <div class="output-label">RGBA値<br>出力欄:</div>
-              <div id="output5" class="output-field">&nbsp;&nbsp;</div>
-              <button id="copy5" type="button" class="copy-button" onclick="copyToClipboard5(this)">←Copy</button>
-            </div> -->
+              <div id="output-hsrg" class="output-field">&nbsp;&nbsp;</div>
+              <button id="copy-hsrg" type="button" class="copy-button">←Copy</button>
+            </div>
           </fieldset>
         </details>
         <details class="mt32">
           <summary>CMYK→HSLA変換</summary>
           <fieldset class="tool-container -cyhs">
             <legend class="legend">CMYK→HSLA変換</legend>
-            <div class="alert">開発中 😱</div>
+            <div class="alert">開発予定(気が向いたら) 🚧</div>
             <!-- <div class="layout-box">
               <label for="cmyk" class="label">CMYK値入力欄:</label>
               <input id="cmyk" type="text" name="cmyk" class="input-field" placeholder="ex.">
@@ -117,6 +115,8 @@
           <li><a href="https://www.color-hex.com/" class="link" target="_blank">Color Hex Color Codes (外部リンク)</a></li>
           <li><a href="https://www.webtoolss.com/colorcode2.html" class="link" target="_blank">カラーコード変換ツール2 (外部リンク)</a></li>
         </ul>
+      </section>
+      <section>
         <h2 class="mt16">関連・参考情報</h2>
         <ul class="list -itemized">
           <li><a href="https://developer.mozilla.org/ja/docs/Web/CSS/CSS_Colors/Applying_color" class="link" target="_blank">CSS を使った HTML の要素への色の適用 - CSS: カスケーディングスタイルシート | MDN (外部リンク)</a></li>

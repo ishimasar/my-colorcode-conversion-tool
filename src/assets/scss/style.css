@@ -1879,19 +1879,30 @@ summary:hover {
   }
 }
 .tool-container.-hxhs {
-  background-color: hsla(182deg, 25%, 50%, 0.1);
-}
-.tool-container.-cnhs {
-  background-color: hsla(207deg, 44%, 49%, 0.1);
-}
-.tool-container.-rghs {
-  background-color: hsla(240deg, 64%, 27%, 0.1);
-}
-.tool-container.-hshx {
   background-color: hsla(195deg, 100%, 50%, 0.2);
 }
+.tool-container.-cnhs {
+  background-color: hsla(146deg, 44%, 49%, 0.2);
+}
+.tool-container.-rghs {
+  background-color: hsla(350deg, 80%, 40%, 0.2);
+}
+.tool-container.-hshx {
+  background-color: hsla(36deg, 80%, 40%, 0.2);
+}
 .tool-container.-hsrg {
-  background-color: hsla(248deg, 53%, 58%, 0.2);
+  background-color: hsla(271deg, 32%, 60%, 0.2);
+}
+.tool-container.-cyhs {
+  background-color: hsla(175deg, 20%, 50%, 0.2);
+}
+.tool-container .alert {
+  font-weight: 600;
+  font-size: var(--20px-rem);
+}
+.tool-container .align-right {
+  -webkit-margin-start: auto;
+          margin-inline-start: auto;
 }
 
 .details-wrapper {
