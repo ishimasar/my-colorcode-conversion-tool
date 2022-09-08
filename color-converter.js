@@ -84,8 +84,7 @@ class HexAToHSLA extends ColorConverter {
   /**
    * Method to convert Hex(A) to HSLA. overriding the parent class method.
    * @param {string} H Abbreviation for Hex.
-   * @return {string} Value of HSLA property or error statement.
-   * @memberof HexAToHSLA
+   * @return {string} value of hsla() function or error wording
    */
   _method(H) {
     // console.log('P', H);
@@ -207,7 +206,7 @@ const convertHexAToHSLA = new HexAToHSLA(
 
 // ---
 /**
- * Convert color name t HSLA.
+ * Convert color name to HSLA.
  * @extends {ColorConverter}
  */
 class NameToHSLA extends ColorConverter {
@@ -219,7 +218,7 @@ class NameToHSLA extends ColorConverter {
   /**
    * Method to convert ColorName to HSLA. overriding the parent class method.
    * @param {string} name HTML ColorName
-   * @return {}
+   * @return {string} value of hsla() function or error wording
    */
   _method(name) {
     if (name !== '') {
@@ -292,6 +291,7 @@ class RGBAToHSLA extends ColorConverter {
   /**
    * Method to convert RGBA to HSLA.
    * @param {string} rgba
+   * @return {string} value of hsla() function or error wording
    */
   _method(rgba) {
     let ex1 =
@@ -440,6 +440,7 @@ class HSLAToHex extends ColorConverter {
   /**
    * Method to convert HSLA to Hex.
    * @param {string} hsla
+   * @return {string} value of Hex or error wording
    */
   _method(hsla) {
     let ex1 =
@@ -573,6 +574,8 @@ class HSLAToHex extends ColorConverter {
       if (b.length == 1) b = '0' + b;
 
       return '#' + r + g + b;
+    } else if (hsla === '') {
+      return 'Please enter value';
     } else {
       return 'Invalid input color';
     }
@@ -606,7 +609,8 @@ class HSLAToRGBA extends ColorConverter {
 
   /**
    * Method to convert HSLA to RGBA.
-   * @param {string} hsla
+   * @param {string} hslarg
+   * @return {string} value of rgba() function or error wording
    */
   _method(hslarg) {
     let ex1 =
@@ -763,6 +767,8 @@ class HSLAToRGBA extends ColorConverter {
           : +r + ', ' + +g + ', ' + +b + ', 1') +
         ')'
       );
+    } else if (hslarg === '') {
+      return 'Please enter value';
     } else {
       return 'Invalid input color';
     }
@@ -782,3 +788,108 @@ const convertHSLAToRGBA = new HSLAToRGBA(
   'copy-hsrg',
   'hsla-rg'
 );
+
+// ---
+// /**
+//  * Convert CMYK to HSLA.
+//  * @extends {ColorConverter}
+//  */
+// class CMYKToHSLA extends ColorConverter {
+//   constructor(convertButton, output, copy, colorType) {
+//     super(convertButton, output, copy, colorType);
+//     this.CMYKToHSLA();
+//   }
+
+//   /**
+//    * Method to convert CMYK to HSLA.
+//    * @param {string} cmyk
+//    * @return {string} value of hsla() function or error wording
+//    */
+//   _method(cmyk) {
+//     let ex =
+//       /^cmyk\(((
+//       (((((1?[1-9]?\d)|10\d|(2[0-4]\d)|25[0-5]),\s?)){2}|
+//       ((((1?[1-9]?\d)|10\d|(2[0-4]\d)|25[0-5])\s)){2})
+//       ((1?[1-9]?\d)|10\d|(2[0-4]\d)|25[0-5]))|
+//       ((((([1-9]?\d(\.\d+)?)|
+//       100|(\.\d+))%,\s?){2}|((([1-9]?\d(\.\d+)?)|100|(\.\d+))%\s){2})(([1-9]?\d(\.\d+)?)|100|(\.\d+))%))\)$/i;
+//     if (ex.test(cmyk)) {
+//       let sep = cmyk.indexOf(',') > -1 ? ',' : ' ';
+//       cmyk = cmyk.substr(5).split(')')[0].split(sep);
+
+//       console.log(cmyk);
+
+//       // strip the slash if using space-separated syntax
+//       if (cmyk.indexOf('/') > -1) cmyk.splice(3, 1);
+
+//       for (let R in cmyk) {
+//         let r = cmyk[R];
+//         if (r.indexOf('%') > -1) {
+//           let p = r.substr(0, r.length - 1) / 100;
+
+//           if (R < 3) {
+//             cmyk[R] = Math.round(p * 255);
+//           }
+//         }
+//       }
+
+//       // make r, g, and b fractions of 1
+//       let r = cmyk[0] / 255,
+//         g = cmyk[1] / 255,
+//         b = cmyk[2] / 255,
+//         a = cmyk[3],
+//         // find greatest and smallest channel values
+//         cmin = Math.min(r, g, b),
+//         cmax = Math.max(r, g, b),
+//         delta = cmax - cmin,
+//         h = 0,
+//         s = 0,
+//         l = 0;
+
+//       // calculate hue
+//       // no difference
+//       if (delta == 0) h = 0;
+//       // red is max
+//       else if (cmax == r) h = ((g - b) / delta) % 6;
+//       // green is max
+//       else if (cmax == g) h = (b - r) / delta + 2;
+//       // blue is max
+//       else h = (r - g) / delta + 4;
+
+//       h = Math.round(h * 60);
+
+//       // make negative hues positive behind 360°
+//       if (h < 0) h += 360;
+
+//       // calculate lightness
+//       l = (cmax + cmin) / 2;
+
+//       // calculate saturation
+//       s = delta == 0 ? 0 : delta / (1 - Math.abs(2 * l - 1));
+
+//       // multiply l and s by 100
+//       s = +(s * 100).toFixed(0);
+//       l = +(l * 100).toFixed(0);
+
+//       return 'hsla(' + h + ', ' + s + '%, ' + l + '%,' + a + ')';
+//     } else if (cmyk === '') {
+//       return 'Please enter value';
+//     } else {
+//       return 'Invalid input color';
+//     }
+//   }
+//   /**
+//    * Call superclass method.
+//    */
+//   CMYKToHSLA() {
+//     super.convertCode();
+//     super.copyString();
+//   }
+// }
+// /** @type {object} */
+// const convertCMYKToHSLA = new CMYKToHSLA(
+//   'convert-button-cyhs',
+//   'output-cyhs',
+//   'copy-cyhs',
+//   'cmyk'
+// );

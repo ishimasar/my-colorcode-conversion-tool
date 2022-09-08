@@ -1905,6 +1905,16 @@ summary:hover {
           margin-inline-start: auto;
 }
 
+.annotation {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  margin: auto;
+  padding: 2px 8px;
+  border: 1px dotted var(--black);
+  text-align: center;
+}
+
 .details-wrapper {
   margin: auto;
 }
@@ -1989,6 +1999,13 @@ summary:hover {
   block-size: 40px;
   font-size: var(--16px-rem);
   box-shadow: 1px 1px 2px 1px hsla(0deg, 0%, 0%, 0.15);
+}
+
+.copy-right-parent {
+  text-align: center;
+}
+.copy-right-parent small {
+  font-size: var(--16px-rem);
 }
 
 .h-rule {

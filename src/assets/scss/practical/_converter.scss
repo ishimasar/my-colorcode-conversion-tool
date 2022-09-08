@@ -126,6 +126,14 @@ summary {
   }
 }
 
+.annotation {
+  width: fit-content;
+  margin: auto;
+  padding: 2px 8px;
+  border: 1px dotted var(--black);
+  text-align: center;
+}
+
 .details-wrapper {
   margin: auto;
   @media print, screen and (min-width:48em) {
@@ -201,6 +209,13 @@ summary {
   @include s.hrHeight(40px);
   font-size: var(--16px-rem);
   box-shadow: 1px 1px 2px 1px hsla(0, 0%, 0%, .15);
+}
+
+.copy-right-parent {
+  text-align: center;
+  & small {
+    font-size: var(--16px-rem);
+  }
 }
 
 .h-rule {
