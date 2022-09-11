@@ -806,24 +806,23 @@ const convertHSLAToRGBA = new HSLAToRGBA(
 //    * @return {string} value of hsla() function or error wording
 //    */
 //   _method(cmyk) {
-//     let ex =
-//       /^cmyk\(((
-//       (((((1?[1-9]?\d)|10\d|(2[0-4]\d)|25[0-5]),\s?)){2}|
-//       ((((1?[1-9]?\d)|10\d|(2[0-4]\d)|25[0-5])\s)){2})
-//       ((1?[1-9]?\d)|10\d|(2[0-4]\d)|25[0-5]))|
-//       ((((([1-9]?\d(\.\d+)?)|
-//       100|(\.\d+))%,\s?){2}|((([1-9]?\d(\.\d+)?)|100|(\.\d+))%\s){2})(([1-9]?\d(\.\d+)?)|100|(\.\d+))%))\)$/i;
-//     if (ex.test(cmyk)) {
+//     // let ex =
+//     //   /^cmyk\(((
+//     //   (((((1?[1-9]?\d)|10\d|(2[0-4]\d)|25[0-5]),\s?)){2}|
+//     //   ((((1?[1-9]?\d)|10\d|(2[0-4]\d)|25[0-5])\s)){2})
+//     //   ((1?[1-9]?\d)|10\d|(2[0-4]\d)|25[0-5]))|
+//     //   ((((([1-9]?\d(\.\d+)?)|
+//     //   100|(\.\d+))%,\s?){2}|((([1-9]?\d(\.\d+)?)|100|(\.\d+))%\s){2})(([1-9]?\d(\.\d+)?)|100|(\.\d+))%))\)$/i;
+//     // if (ex.test(cmyk)) {
 //       let sep = cmyk.indexOf(',') > -1 ? ',' : ' ';
 //       cmyk = cmyk.substr(5).split(')')[0].split(sep);
-
-//       console.log(cmyk);
 
 //       // strip the slash if using space-separated syntax
 //       if (cmyk.indexOf('/') > -1) cmyk.splice(3, 1);
 
 //       for (let R in cmyk) {
 //         let r = cmyk[R];
+//         console.log(r.indexOf('%') > -1);
 //         if (r.indexOf('%') > -1) {
 //           let p = r.substr(0, r.length - 1) / 100;
 
@@ -834,10 +833,13 @@ const convertHSLAToRGBA = new HSLAToRGBA(
 //       }
 
 //       // make r, g, and b fractions of 1
-//       let r = cmyk[0] / 255,
-//         g = cmyk[1] / 255,
-//         b = cmyk[2] / 255,
-//         a = cmyk[3],
+//       let c = cmyk[0],
+//         m = cmyk[1],
+//         y = cmyk[2],
+//         k = cmyk[3],
+//         r = 255 * (1 - c) * (1 - k)
+//         g = 255 * (1 - m) * (1 - k)
+//         b = 255 * (1 - y) * (1 - k)
 //         // find greatest and smallest channel values
 //         cmin = Math.min(r, g, b),
 //         cmax = Math.max(r, g, b),
@@ -872,11 +874,11 @@ const convertHSLAToRGBA = new HSLAToRGBA(
 //       l = +(l * 100).toFixed(0);
 
 //       return 'hsla(' + h + ', ' + s + '%, ' + l + '%,' + a + ')';
-//     } else if (cmyk === '') {
-//       return 'Please enter value';
-//     } else {
-//       return 'Invalid input color';
-//     }
+//     // } else if (cmyk === '') {
+//     //   return 'Please enter value';
+//     // } else {
+//     //   return 'Invalid input color';
+//     // }
 //   }
 //   /**
 //    * Call superclass method.
