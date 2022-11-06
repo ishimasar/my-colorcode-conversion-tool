@@ -807,9 +807,8 @@ class CMYKToHSLA extends ColorConverter {
    */
   _method(cmyk) {
     let exCMYK =
-      /^CMYK\((((((((1?[1-9]?\d)|10\d|(2[0-4]\d)|25[0-5]),\s?)){2}|((((1?[1-9]?\d)|10\d|(2[0-4]\d)|25[0-5])\s)){2})((1?[1-9]?\d)|10\d|(2[0-4]\d)|25[0-5]))|((((([1-9]?\d(\.\d+)?)|100|(\.\d+))%,\s?){2}|((([1-9]?\d(\.\d+)?)|100|(\.\d+))%\s){2})(([1-9]?\d(\.\d+)?)|100|(\.\d+))%))\)$/i;
-
-    // if (exCMYK.test(cmyk) === true) {
+      /^CMYK\((\s?(([1-9]?\d(\.\d+)?)|100|(\.\d+)))((,\s?(([1-9]?\d(\.\d+)?)|100|(\.\d+))){3}|(\s(([1-9]?\d(\.\d+)?)|100|(\.\d+))%){3})\)$/i;
+    if (exCMYK.test(cmyk) === true) {
       let sep = cmyk.indexOf(',') > -1 ? ',' : ' ';
       cmyk = cmyk.substring(5).split(')')[0].split(sep);
 
@@ -862,11 +861,11 @@ class CMYKToHSLA extends ColorConverter {
       l = +(l * 100).toFixed(0);
 
       return 'hsla(' + h + ', ' + s + '%, ' + l + '%, 1)';
-    // } else if (cmyk === '') {
-    //   return 'Please enter value';
-    // } else {
-    //   return 'Invalid input color';
-    // }
+    } else if (cmyk === '') {
+      return 'Please enter value';
+    } else {
+      return 'Invalid input color';
+    }
   }
   /**
    * Call superclass method.
