@@ -19,7 +19,7 @@
         <legend class="legend">Hex(A)→HSLA変換</legend>
         <div class="layout-box">
           <label for="hex" class="label">Hex(A)値入力欄:</label>
-          <input id="hex" type="text" name="hex" class="input-field" placeholder="ex. #ffff00 or #ff0 or (HexA)">
+          <input id="hex" type="text" name="hex" class="input-field" placeholder="ex. #ffff00 or #ff0 or #ffff0000">
         </div>
         <button id="convert-button-hxhs" type="button" class="convert-button mt16">変換 ↓</button>
         <div class="layout-box mt16">
@@ -41,7 +41,7 @@
           <button id="copy-cnhs" type="button" class="copy-button">←Copy</button>
         </div>
       </fieldset>
-      <p class="annotation mt16">※入力文字(特に文頭)のスペース混入にご注意ください</p>
+      <p class="annotation mt16">※入力文字(特に文頭)のスペース混入にご注意ください<br>※終端/末尾の;(セミコロン)は除外してください</p>
       <div class="details-wrapper">
         <details class="mt32">
           <summary>RGBA→HSLA変換</summary>
@@ -96,8 +96,8 @@
           <summary>CMYK→HSLA変換</summary>
           <fieldset class="tool-container -cyhs">
             <legend class="legend">CMYK→HSLA変換</legend>
-            <div class="alert">開発中 🚧</div>
-            <!-- <div class="layout-box">
+            <!-- <div class="alert">開発中 🚧</div> -->
+            <div class="layout-box">
               <label for="cmyk" class="label">CMYK値入力欄:</label>
               <input id="cmyk" type="text" name="cmyk" class="input-field" placeholder="ex. CMYK(100,100,0,0)">
             </div>
@@ -106,7 +106,7 @@
               <div class="output-label">HSLA値<br>出力欄:</div>
               <div id="output-cyhs" class="output-field">&nbsp;&nbsp;</div>
               <button id="copy-cyhs" type="button" class="copy-button">←Copy</button>
-            </div> -->
+            </div>
           </fieldset>
         </details>
       </div>
@@ -116,6 +116,7 @@
         <ul class="list -itemized">
           <li><a href="https://www.color-hex.com/" class="link" target="_blank">Color Hex Color Codes (外部リンク)</a></li>
           <li><a href="https://www.webtoolss.com/colorcode2.html" class="link" target="_blank">カラーコード変換ツール2 (外部リンク)</a></li>
+          <li><a href="https://colorcodesearch.com/cmyk-rgb/" class="link" target="_blank">cmyk 色見本 - Web色変換</a></li>
         </ul>
       </section>
       <section>

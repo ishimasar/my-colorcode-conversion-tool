@@ -229,8 +229,8 @@ class NameToHSLA extends ColorConverter {
         pv = cs.getPropertyValue('color');
       document.body.removeChild(fakeDiv);
 
-      // code ripped from RGBToHSLA() (except pv is substringed)
-      let rgb = pv.substr(4).split(')')[0].split(','),
+      // code ripped from RGBToHSLA() (except pv is substringinged)
+      let rgb = pv.substring(4).split(')')[0].split(','),
         r = rgb[0] / 255,
         g = rgb[1] / 255,
         b = rgb[2] / 255,
@@ -300,7 +300,7 @@ class RGBAToHSLA extends ColorConverter {
       /^rgb\((((((((1?[1-9]?\d)|10\d|(2[0-4]\d)|25[0-5]),\s?)){2}|((((1?[1-9]?\d)|10\d|(2[0-4]\d)|25[0-5])\s)){2})((1?[1-9]?\d)|10\d|(2[0-4]\d)|25[0-5]))|((((([1-9]?\d(\.\d+)?)|100|(\.\d+))%,\s?){2}|((([1-9]?\d(\.\d+)?)|100|(\.\d+))%\s){2})(([1-9]?\d(\.\d+)?)|100|(\.\d+))%))\)$/i;
     if (ex1.test(rgba)) {
       let sep = rgba.indexOf(',') > -1 ? ',' : ' ';
-      rgba = rgba.substr(5).split(')')[0].split(sep);
+      rgba = rgba.substring(5).split(')')[0].split(sep);
 
       // strip the slash if using space-separated syntax
       if (rgba.indexOf('/') > -1) rgba.splice(3, 1);
@@ -308,7 +308,7 @@ class RGBAToHSLA extends ColorConverter {
       for (let R in rgba) {
         let r = rgba[R];
         if (r.indexOf('%') > -1) {
-          let p = r.substr(0, r.length - 1) / 100;
+          let p = r.substring(0, r.length - 1) / 100;
 
           if (R < 3) {
             rgba[R] = Math.round(p * 255);
@@ -354,16 +354,16 @@ class RGBAToHSLA extends ColorConverter {
       s = +(s * 100).toFixed(0);
       l = +(l * 100).toFixed(0);
 
-      return 'hsla(' + h + ', ' + s + '%, ' + l + '%,' + a + ')';
+      return 'hsla(' + h + ', ' + s + '%, ' + l + '%, ' + a + ')';
     } else if (ex2.test(rgba)) {
       let sep = rgba.indexOf(',') > -1 ? ',' : ' ';
-      rgba = rgba.substr(4).split(')')[0].split(sep);
+      rgba = rgba.substring(4).split(')')[0].split(sep);
 
       // convert %s to 0–255
       for (let R in rgba) {
         let r = rgba[R];
         if (r.indexOf('%') > -1)
-          rgba[R] = Math.round((r.substr(0, r.length - 1) / 100) * 255);
+          rgba[R] = Math.round((r.substring(0, r.length - 1) / 100) * 255);
       }
 
       // make r, g, and b fractions of 1
@@ -449,27 +449,27 @@ class HSLAToHex extends ColorConverter {
       /^hsl\(((((([12]?[1-9]?\d)|[12]0\d|(3[0-5]\d))(\.\d+)?)|(\.\d+))(deg)?|(0|0?\.\d+)turn|(([0-6](\.\d+)?)|(\.\d+))rad)((,\s?(([1-9]?\d(\.\d+)?)|100|(\.\d+))%){2}|(\s(([1-9]?\d(\.\d+)?)|100|(\.\d+))%){2})\)$/i;
     if (ex1.test(hsla)) {
       let sep = hsla.indexOf(',') > -1 ? ',' : ' ';
-      hsla = hsla.substr(5).split(')')[0].split(sep);
+      hsla = hsla.substring(5).split(')')[0].split(sep);
       console.log(sep, hsla);
 
       // strip the slash
       if (hsla.indexOf('/') > -1) hsla.splice(3, 1);
 
       let h = hsla[0],
-        s = hsla[1].substr(0, hsla[1].length - 1) / 100,
-        l = hsla[2].substr(0, hsla[2].length - 1) / 100,
+        s = hsla[1].substring(0, hsla[1].length - 1) / 100,
+        l = hsla[2].substring(0, hsla[2].length - 1) / 100,
         a = hsla[3];
 
       // strip label and convert to degrees (if necessary)
-      if (h.indexOf('deg') > -1) h = h.substr(0, h.length - 3);
+      if (h.indexOf('deg') > -1) h = h.substring(0, h.length - 3);
       else if (h.indexOf('rad') > -1)
-        h = Math.round(h.substr(0, h.length - 3) * (180 / Math.PI));
+        h = Math.round(h.substring(0, h.length - 3) * (180 / Math.PI));
       else if (h.indexOf('turn') > -1)
-        h = Math.round(h.substr(0, h.length - 4) * 360);
+        h = Math.round(h.substring(0, h.length - 4) * 360);
       if (h >= 360) h %= 360;
 
       // strip % from alpha, make fraction of 1 (if necessary)
-      if (a.indexOf('%') > -1) a = a.substr(0, a.length - 1) / 100;
+      if (a.indexOf('%') > -1) a = a.substring(0, a.length - 1) / 100;
 
       let c = (1 - Math.abs(2 * l - 1)) * s,
         x = c * (1 - Math.abs(((h / 60) % 2) - 1)),
@@ -516,19 +516,19 @@ class HSLAToHex extends ColorConverter {
       return '#' + r + g + b;
     } else if (ex2.test(hsla)) {
       let sep = hsla.indexOf(',') > -1 ? ',' : ' ';
-      hsla = hsla.substr(4).split(')')[0].split(sep);
+      hsla = hsla.substring(4).split(')')[0].split(sep);
 
       let h = hsla[0],
-        s = hsla[1].substr(0, hsla[1].length - 1) / 100,
-        l = hsla[2].substr(0, hsla[2].length - 1) / 100;
+        s = hsla[1].substring(0, hsla[1].length - 1) / 100,
+        l = hsla[2].substring(0, hsla[2].length - 1) / 100;
       console.log(h);
 
       // strip label and convert to degrees (if necessary)
-      if (h.indexOf('deg') > -1) h = h.substr(0, h.length - 3);
+      if (h.indexOf('deg') > -1) h = h.substring(0, h.length - 3);
       else if (h.indexOf('rad') > -1)
-        h = Math.round(h.substr(0, h.length - 3) * (180 / Math.PI));
+        h = Math.round(h.substring(0, h.length - 3) * (180 / Math.PI));
       else if (h.indexOf('turn') > -1)
-        h = Math.round(h.substr(0, h.length - 4) * 360);
+        h = Math.round(h.substring(0, h.length - 4) * 360);
       if (h >= 360) h %= 360;
 
       let c = (1 - Math.abs(2 * l - 1)) * s,
@@ -619,7 +619,7 @@ class HSLAToRGBA extends ColorConverter {
       /^hsl\(((((([12]?[1-9]?\d)|[12]0\d|(3[0-5]\d))(\.\d+)?)|(\.\d+))(deg)?|(0|0?\.\d+)turn|(([0-6](\.\d+)?)|(\.\d+))rad)((,\s?(([1-9]?\d(\.\d+)?)|100|(\.\d+))%){2}|(\s(([1-9]?\d(\.\d+)?)|100|(\.\d+))%){2})\)$/i;
     if (ex1.test(hslarg)) {
       let sep = hslarg.indexOf(',') > -1 ? ',' : ' ';
-      hslarg = hslarg.substr(5).split(')')[0].split(sep);
+      hslarg = hslarg.substring(5).split(')')[0].split(sep);
 
       // strip the slash if using space-separated syntax
       if (hslarg.indexOf('/') > -1) hslarg.splice(3, 1);
@@ -628,16 +628,16 @@ class HSLAToRGBA extends ColorConverter {
 
       // must be fractions of 1
       let h = hslarg[0],
-        s = hslarg[1].substr(0, hslarg[1].length - 1) / 100,
-        l = hslarg[2].substr(0, hslarg[2].length - 1) / 100,
+        s = hslarg[1].substring(0, hslarg[1].length - 1) / 100,
+        l = hslarg[2].substring(0, hslarg[2].length - 1) / 100,
         a = hslarg[3];
 
       // strip label and convert to degrees (if necessary)
-      if (h.indexOf('deg') > -1) h = h.substr(0, h.length - 3);
+      if (h.indexOf('deg') > -1) h = h.substring(0, h.length - 3);
       else if (h.indexOf('rad') > -1)
-        h = Math.round((h.substr(0, h.length - 3) / (2 * Math.PI)) * 360);
+        h = Math.round((h.substring(0, h.length - 3) / (2 * Math.PI)) * 360);
       else if (h.indexOf('turn') > -1)
-        h = Math.round(h.substr(0, h.length - 4) * 360);
+        h = Math.round(h.substring(0, h.length - 4) * 360);
       if (h >= 360) h %= 360;
 
       let c = (1 - Math.abs(2 * l - 1)) * s,
@@ -686,10 +686,10 @@ class HSLAToRGBA extends ColorConverter {
         if (!pctFound) {
           a *= 100;
         } else {
-          a = a.substr(0, a.length - 1);
+          a = a.substring(0, a.length - 1);
         }
       } else if (pctFound) {
-        a = a.substr(0, a.length - 1) / 100;
+        a = a.substring(0, a.length - 1) / 100;
       }
 
       return (
@@ -701,19 +701,19 @@ class HSLAToRGBA extends ColorConverter {
       );
     } else if (ex2.test(hslarg)) {
       let sep = hslarg.indexOf(',') > -1 ? ',' : ' ';
-      hslarg = hslarg.substr(4).split(')')[0].split(sep);
+      hslarg = hslarg.substring(4).split(')')[0].split(sep);
       this.isPct = this.isPct === true;
 
       let h = hslarg[0],
-        s = hslarg[1].substr(0, hslarg[1].length - 1) / 100,
-        l = hslarg[2].substr(0, hslarg[2].length - 1) / 100;
+        s = hslarg[1].substring(0, hslarg[1].length - 1) / 100,
+        l = hslarg[2].substring(0, hslarg[2].length - 1) / 100;
 
       // strip label and convert to degrees (if necessary)
-      if (h.indexOf('deg') > -1) h = h.substr(0, h.length - 3);
+      if (h.indexOf('deg') > -1) h = h.substring(0, h.length - 3);
       else if (h.indexOf('rad') > -1)
-        h = Math.round((h.substr(0, h.length - 3) / (2 * Math.PI)) * 360);
+        h = Math.round((h.substring(0, h.length - 3) / (2 * Math.PI)) * 360);
       else if (h.indexOf('turn') > -1)
-        h = Math.round(h.substr(0, h.length - 4) * 360);
+        h = Math.round(h.substring(0, h.length - 4) * 360);
       // keep hue fraction of 360 if ending up over
       if (h >= 360) h %= 360;
 
@@ -790,108 +790,96 @@ const convertHSLAToRGBA = new HSLAToRGBA(
 );
 
 // ---
-// /**
-//  * Convert CMYK to HSLA.
-//  * @extends {ColorConverter}
-//  */
-// class CMYKToHSLA extends ColorConverter {
-//   constructor(convertButton, output, copy, colorType) {
-//     super(convertButton, output, copy, colorType);
-//     this.CMYKToHSLA();
-//   }
+/**
+ * Convert CMYK to HSLA.
+ * @extends {ColorConverter}
+ */
+class CMYKToHSLA extends ColorConverter {
+  constructor(convertButton, output, copy, colorType) {
+    super(convertButton, output, copy, colorType);
+    this.CMYKToHSLA();
+  }
 
-//   /**
-//    * Method to convert CMYK to HSLA.
-//    * @param {string} cmyk
-//    * @return {string} value of hsla() function or error wording
-//    */
-//   _method(cmyk) {
-//     // let ex =
-//     //   /^cmyk\(((
-//     //   (((((1?[1-9]?\d)|10\d|(2[0-4]\d)|25[0-5]),\s?)){2}|
-//     //   ((((1?[1-9]?\d)|10\d|(2[0-4]\d)|25[0-5])\s)){2})
-//     //   ((1?[1-9]?\d)|10\d|(2[0-4]\d)|25[0-5]))|
-//     //   ((((([1-9]?\d(\.\d+)?)|
-//     //   100|(\.\d+))%,\s?){2}|((([1-9]?\d(\.\d+)?)|100|(\.\d+))%\s){2})(([1-9]?\d(\.\d+)?)|100|(\.\d+))%))\)$/i;
-//     // if (ex.test(cmyk)) {
-//       let sep = cmyk.indexOf(',') > -1 ? ',' : ' ';
-//       cmyk = cmyk.substr(5).split(')')[0].split(sep);
+  /**
+   * Method to convert CMYK to HSLA.
+   * @param {string} cmyk
+   * @return {string} value of hsla() function or error wording
+   */
+  _method(cmyk) {
+    let exCMYK =
+      /^CMYK\((((((((1?[1-9]?\d)|10\d|(2[0-4]\d)|25[0-5]),\s?)){2}|((((1?[1-9]?\d)|10\d|(2[0-4]\d)|25[0-5])\s)){2})((1?[1-9]?\d)|10\d|(2[0-4]\d)|25[0-5]))|((((([1-9]?\d(\.\d+)?)|100|(\.\d+))%,\s?){2}|((([1-9]?\d(\.\d+)?)|100|(\.\d+))%\s){2})(([1-9]?\d(\.\d+)?)|100|(\.\d+))%))\)$/i;
 
-//       // strip the slash if using space-separated syntax
-//       if (cmyk.indexOf('/') > -1) cmyk.splice(3, 1);
+    // if (exCMYK.test(cmyk) === true) {
+      let sep = cmyk.indexOf(',') > -1 ? ',' : ' ';
+      cmyk = cmyk.substring(5).split(')')[0].split(sep);
 
-//       for (let R in cmyk) {
-//         let r = cmyk[R];
-//         console.log(r.indexOf('%') > -1);
-//         if (r.indexOf('%') > -1) {
-//           let p = r.substr(0, r.length - 1) / 100;
+      // strip the slash if using space-separated syntax
+      if (cmyk.indexOf('/') > -1) cmyk.splice(3, 1);
 
-//           if (R < 3) {
-//             cmyk[R] = Math.round(p * 255);
-//           }
-//         }
-//       }
+      for (let R in cmyk) {
+        let r = cmyk[R];
+        if (r.indexOf('%') > -1) {
+          let p = r.substring(0, r.length - 1) / 100;
 
-//       // make r, g, and b fractions of 1
-//       let c = cmyk[0],
-//         m = cmyk[1],
-//         y = cmyk[2],
-//         k = cmyk[3],
-//         r = 255 * (1 - c) * (1 - k)
-//         g = 255 * (1 - m) * (1 - k)
-//         b = 255 * (1 - y) * (1 - k)
-//         // find greatest and smallest channel values
-//         cmin = Math.min(r, g, b),
-//         cmax = Math.max(r, g, b),
-//         delta = cmax - cmin,
-//         h = 0,
-//         s = 0,
-//         l = 0;
+          if (R < 3) {
+            cmyk[R] = Math.round(p * 255);
+          }
+        }
+      }
 
-//       // calculate hue
-//       // no difference
-//       if (delta == 0) h = 0;
-//       // red is max
-//       else if (cmax == r) h = ((g - b) / delta) % 6;
-//       // green is max
-//       else if (cmax == g) h = (b - r) / delta + 2;
-//       // blue is max
-//       else h = (r - g) / delta + 4;
+      // make r, g, and b fractions of 1
+      let c = cmyk[0],
+        m = cmyk[1],
+        y = cmyk[2],
+        k = cmyk[3],
+        rAbs = Math.abs(255 * (1 - c / 100) * (1 - k / 100)),
+        gAbs = Math.abs(255  * (1 - m / 100) * (1 - k / 100)),
+        bAbs = Math.abs(255  * (1 - y / 100) * (1 - k / 100)),
+        r = Math.floor(rAbs) / 255,
+        g = Math.floor(gAbs) / 255,
+        b = Math.floor(bAbs) / 255,
+        // find greatest and smallest channel values
+        cmin = Math.min(r, g, b),
+        cmax = Math.max(r, g, b),
+        delta = cmax - cmin,
+        h = 0,
+        s = 0,
+        l = 0;
 
-//       h = Math.round(h * 60);
+      // calculate hue
+      // no difference
+      if (delta == 0) h = 0;
+      else if (cmax == r) h = ((g - b) / delta) % 6;
+      else if (cmax == g) h = (b - r) / delta + 2;
+      else h = (r - g) / delta + 4;
 
-//       // make negative hues positive behind 360°
-//       if (h < 0) h += 360;
+      h = Math.round(h * 60);
+      if (h < 0) h += 360;
 
-//       // calculate lightness
-//       l = (cmax + cmin) / 2;
+      l = (cmax + cmin) / 2;
+      s = delta == 0 ? 0 : delta / (1 - Math.abs(2 * l - 1));
+      s = +(s * 100).toFixed(0);
+      l = +(l * 100).toFixed(0);
 
-//       // calculate saturation
-//       s = delta == 0 ? 0 : delta / (1 - Math.abs(2 * l - 1));
-
-//       // multiply l and s by 100
-//       s = +(s * 100).toFixed(0);
-//       l = +(l * 100).toFixed(0);
-
-//       return 'hsla(' + h + ', ' + s + '%, ' + l + '%,' + a + ')';
-//     // } else if (cmyk === '') {
-//     //   return 'Please enter value';
-//     // } else {
-//     //   return 'Invalid input color';
-//     // }
-//   }
-//   /**
-//    * Call superclass method.
-//    */
-//   CMYKToHSLA() {
-//     super.convertCode();
-//     super.copyString();
-//   }
-// }
-// /** @type {object} */
-// const convertCMYKToHSLA = new CMYKToHSLA(
-//   'convert-button-cyhs',
-//   'output-cyhs',
-//   'copy-cyhs',
-//   'cmyk'
-// );
+      return 'hsla(' + h + ', ' + s + '%, ' + l + '%, 1)';
+    // } else if (cmyk === '') {
+    //   return 'Please enter value';
+    // } else {
+    //   return 'Invalid input color';
+    // }
+  }
+  /**
+   * Call superclass method.
+   */
+  CMYKToHSLA() {
+    super.convertCode();
+    super.copyString();
+  }
+}
+/** @type {object} */
+const convertCMYKToHSLA = new CMYKToHSLA(
+  'convert-button-cyhs',
+  'output-cyhs',
+  'copy-cyhs',
+  'cmyk'
+);
